@@ -1,4 +1,6 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:store_app/constans.dart';
 
 void main() {
   runApp(const StoreApp());
@@ -113,7 +115,25 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
+        onPressed: () async {
+          Response response = await Dio().post(
+            '$basUrl/products',
+            data: {
+              'title': 'test product',
+              'price': '50',
+              'description': 'lorem ipsum set',
+              'image': 'https://i.pravatar.cc',
+              'category': 'electronic',
+            },
+            options: Options(
+              headers: {
+                'Accept': 'application/json',
+                // 'Content-Type': 'multipart/form-data',
+              },
+            ),
+          );
+          print(response.data);
+        },
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
